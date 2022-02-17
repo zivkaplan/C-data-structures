@@ -1,16 +1,20 @@
-# C Data Structures
+# 🧬 C Data Structures
 
 ## Usable implementations of common data structures written in C.
 
-### Ready:
+♾️ During [Infinity Labs](https://infinitylabs.co.il/) course I have learned to implement various data structures in C.
+
+Here, I am uploading re-implementations for the sake of exercise.  
+
+### 🟢 Ready:
 - Stack
 
 
-### In Progress:
+### 🟡 In Progress:
 - Singly Linked List
 
 
-### To Do (in the near future): 
+### 🟠 To Do (in the near future): 
 - Doubly Linked List
 - Vector
 - Queue
