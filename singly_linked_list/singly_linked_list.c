@@ -26,7 +26,6 @@ struct list
 {
     struct node last;
     struct node *first;
-    size_t size;
 };
 
 /*********************************
@@ -51,7 +50,6 @@ list_t *CreateList(void)
     new_list->first = &(new_list->last);
     new_list->last.data = NULL;
     new_list->last.next = NULL;
-    new_list->size = 0;
 
     return new_list;
 }
@@ -217,12 +215,21 @@ size_t ListGetSize(const list_t *list)
 {
     assert(list);
 
-    return list->size;
+    size_t size = 0;
+
+    for (iter_t iter = ListBegin(list);
+         iter != ListEnd(list);
+         iter = ListNext(iter))
+    {
+        size++;
+    }
+
+    return size;
 }
 
 int ListIsEmpty(const list_t *list)
 {
-    return 0 == list->size; /* also possible: list->first == &(list->end) */
+    return IsSameIterator(list->first, (iter_t)(&(list->last)));
 }
 
 /*********************************
