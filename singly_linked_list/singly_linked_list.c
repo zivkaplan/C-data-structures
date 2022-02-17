@@ -9,7 +9,7 @@
  * -------------------------------------------------------
  * Please read the header file for the complete API.
  ********************************************************/
-#include <stdio.h>
+
 #include <stdlib.h> /* malloc(), free() */
 #include <assert.h> /* assert() */
 #include <string.h> /* memset() */
@@ -92,7 +92,7 @@ sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data)
     assert(list);
     assert(iter);
 
-    node_t *new_node = CreateNode(SinglyListGetData(iter), iter);
+    node_t *new_node = CreateNode(SinglyListGetData(iter), SinglyListNext(iter));
     if (!new_node)
     {
         return SinglyListEnd(list);
@@ -130,15 +130,15 @@ sll_iter_t SinglyListRemove(list_t *list, sll_iter_t iter)
     assert(list);
     assert(iter);
 
-    sll_iter_t next_iter = SinglyListNext(iter);
-    SwapData(iter, next_iter);
-    SetNext(iter, SinglyListNext(next_iter));
+    sll_iter_t iter_to_remove = SinglyListNext(iter);
+    SwapData(iter, iter_to_remove);
+    SetNext(iter, SinglyListNext(iter_to_remove));
 
-    memset(iter, 0, sizeof(node_t));
-    free(iter);
-    iter = NULL;
+    memset(iter_to_remove, 0, sizeof(node_t));
+    free(iter_to_remove);
+    iter_to_remove = NULL;
 
-    return next_iter;
+    return SinglyListNext(iter);
 }
 
 sll_iter_t SinglyListRemoveAfter(list_t *list, sll_iter_t iter)

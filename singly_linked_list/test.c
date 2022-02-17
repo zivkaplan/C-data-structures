@@ -43,32 +43,33 @@ void RunTest()
 
     /* add an item and then check size and is empty and foreach */
     printf(BOLDWHITE "\n2 Elements\n" RESETCOLOR);
-    iter = SinglyListInsertAfter(list, iter, &b);
+    iter = SinglyListInsertAfter(list, iter, &c);
     printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
     printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
     SinglyListForEach(list, NULL, PrintNode);
 
     /* add an item and then check size and is empty and foreach */
     printf(BOLDWHITE "\n3 Elements\n" RESETCOLOR);
-    iter = SinglyListInsert(list, iter, &c);
+    iter = SinglyListInsert(list, iter, &b);
     printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
     printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
     SinglyListForEach(list, NULL, PrintNode);
 
     /* add an item and then check size and is empty and foreach */
     printf(BOLDWHITE "\n4 Elements\n" RESETCOLOR);
-    iter = SinglyListInsert(list, iter, &d);
+    iter = SinglyListInsert(list, SinglyListEnd(list), &d);
     printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
     printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
     SinglyListForEach(list, NULL, PrintNode);
 
     /* search for item with value 4, print it, update it to 5 and print it again */
     printf(BOLDWHITE "\nFind Element and Change its Value\n" RESETCOLOR);
-    found_iter = SinglyListFind(list, &d, FindNodeByVal);
+    found_iter = SinglyListFind(list, &c, FindNodeByVal);
     printf("found iter value is %d\n", *(int *)(SinglyListGetData(found_iter)));
-    d++;
-    SinglyListSetData(found_iter, &d);
+    c = -1;
+    SinglyListSetData(found_iter, &c);
     printf("found iter value changed to %d\n", *(int *)(SinglyListGetData(found_iter)));
+    SinglyListForEach(list, NULL, PrintNode);
 
     /* remove the element after it (the last), and then check size and is empty and foreach */
     printf(BOLDWHITE "\n3 Elements\n" RESETCOLOR);
@@ -93,7 +94,6 @@ void RunTest()
 
     /* remove the first and only element left, and then check size and is empty and foreach */
     printf(BOLDWHITE "\nEmpty\n" RESETCOLOR);
-    iter = SinglyListRemove(list, SinglyListBegin(list));
     printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
     printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
 
@@ -110,5 +110,5 @@ static int PrintNode(void *el, __attribute__((unused)) void *none)
 
 static int FindNodeByVal(const void *el, const void *val)
 {
-    return !(*(int *)el == *(int *)val);
+    return (*(int *)el == *(int *)val);
 }
