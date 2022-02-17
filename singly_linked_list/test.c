@@ -29,31 +29,31 @@ int main()
 void TestWithIntegers(void)
 {
     size_t size = 0;
-    list_t *list = CreateList();
+    list_t *list = SinglyListCreate();
     if (NULL == list)
     {
-        printf(YELLOW "CreateStack returned NULL");
+        printf(YELLOW "SinglyListCreate returned NULL");
         return;
     }
 
-    printf(BOLDWHITE "\nStack with integers (size_t variables):\n" RESETCOLOR);
+    printf(BOLDWHITE "\nSinglyList with integers (size_t variables):\n" RESETCOLOR);
 
     printf(BOLDWHITE "\nEmpty List\n" RESETCOLOR);
 
-    PrintTest(ListIsEmpty(list), 1, "IsListEmpty", __LINE__);
-    PrintTest(GetSize(list), size, "GetSize", __LINE__);
+    PrintTest(SinglyListIsEmpty(list), 1, "IsListEmpty", __LINE__);
+    PrintTest(SinglyListGetSize(list), size, "SinglyListGetSize", __LINE__);
 
-    iter_t iter = ListBegin(list);
+    iter_t iter = SinglyListBegin(list);
     for (size_t i = 0; i < NUM_OF_ELEMENTS_INSERT; i++)
     {
         size++;
-        iter = AddElementAndTest(list, iter, Insert, i, size);
+        iter = AddElementAndTest(list, iter, SinglyListInsert, i, size);
     }
 
     for (size_t i = 0; i < NUM_OF_ELEMENTS_INSERT_AFTER; i++)
     {
         size++;
-        iter = AddElementAndTest(list, iter, InsertAfter, i, size);
+        iter = AddElementAndTest(list, iter, SinglyListInsertAfter, i, size);
     }
 
     for (size_t i = NUM_OF_ELEMENTS_INSERT + NUM_OF_ELEMENTS_INSERT_AFTER;
@@ -65,10 +65,10 @@ void TestWithIntegers(void)
 
     printf(BOLDWHITE "\nEmpty Stack\n" RESETCOLOR);
 
-    PrintTest(ListIsEmpty(list), 1, "ListIsEmpty", __LINE__);
-    PrintTest(GetSize(list), size, "GetSize", __LINE__);
+    PrintTest(SinglyListIsEmpty(list), 1, "SinglyListIsEmpty", __LINE__);
+    PrintTest(SinglyListGetSize(list), size, "SinglyListGetSize", __LINE__);
 
-    DestroyStack(list);
+    SinglyListDestroy(list);
 
     printf(BOLDWHITE "\nTest finished.\n\n" RESETCOLOR);
 }
@@ -81,9 +81,9 @@ static iter_t AddElementAndTest(list_t *list, iter_t iter,
 
     iter_t new_iter = insert_func(list, iter, (void *)value);
 
-    PrintTest((size_t)Peek(list), value, "Peek", __LINE__);
-    PrintTest(GetSize(list), size, "Size", __LINE__);
-    PrintTest(ListIsEmpty(list), !size, "IsEmpty", __LINE__);
+    PrintTest((size_t)SinglyListGetData(new_iter), value, "GetData", __LINE__);
+    PrintTest(SinglyListGetSize(list), size, "Size", __LINE__);
+    PrintTest(SinglyListIsEmpty(list), !size, "IsEmpty", __LINE__);
 
     return iter;
 }
@@ -92,12 +92,12 @@ static iter_t RemoveElementAndTest(list_t *list, iter_t iter, size_t value, size
 {
     printf(BOLDWHITE "\nRemoving Element \n" RESETCOLOR);
 
-    PrintTest((size_t)Peek(list), value, "Peek", __LINE__);
+    PrintTest((size_t)SinglyListGetData(iter), value, "GetData", __LINE__);
 
-    ListRemove(list);
+    SinglyListRemove(list, iter);
 
-    PrintTest(GetSize(list), size, "Size", __LINE__);
-    PrintTest(ListIsEmpty(list), !size, "IsEmpty", __LINE__);
+    PrintTest(SinglyListGetSize(list), size, "Size", __LINE__);
+    PrintTest(SinglyListIsEmpty(list), !size, "IsEmpty", __LINE__);
 }
 
 static void PrintTest(size_t result, size_t expected, char *test_name, size_t line)
