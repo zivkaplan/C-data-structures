@@ -15,24 +15,24 @@
 
 typedef struct stack stack_t;
 
-stack_t *CreateStack(size_t capacity);
+stack_t *StackCreate(size_t capacity);
 /* Returns NULL on failure */
 
-void DestroyStack(stack_t *stack);
+void StackDestroy(stack_t *stack);
 /* Calling DestroyStack(NULL) is valid */
 
-void Push(stack_t *stack, void *pointer_to_element);
+void StackPush(stack_t *stack, void *pointer_to_element);
 /* Calling Push() to a full stack is undefined behavior  */
 
-void Pop(stack_t *stack);
+void StackPop(stack_t *stack);
 /* Calling Pop() on an empty stack is undefined behavior  */
 
-void *Peek(stack_t *stack);
+void *StackPeek(stack_t *stack);
 
-size_t GetSize(const stack_t *stack);
+size_t StackGetSize(const stack_t *stack);
 
-int IsStackEmpty(const stack_t *stack);
+int StackIsEmpty(const stack_t *stack);
 
-size_t GetCapacity(const stack_t *stack);
+size_t StackGetCapacity(const stack_t *stack);
 
 #endif /* __TACK_H__ */

@@ -1,7 +1,7 @@
 #include <stdio.h> /* printf() */
 
-#include "stack.h" /* Create(), Destroy(), Push(), Pop(), Peek(), 
-                      GetSize(), GetCapacity(), IsEmpty() */
+#include "stack.h" /* Create(), Destroy(), StackPush(), Pop(), StackPeek(), 
+                      StackGetSize(), StackGetCapacity(), IsEmpty() */
 
 #define GREEN "\033[32m"
 #define RED "\033[31m"
@@ -27,10 +27,10 @@ void TestWithIntegers(void)
     const size_t stack_capacity = 5;
     size_t size = 0;
 
-    stack_t *stack = CreateStack(stack_capacity);
+    stack_t *stack = StackCreate(stack_capacity);
     if (NULL == stack)
     {
-        printf(YELLOW "CreateStack returned NULL");
+        printf(YELLOW "StackCreate returned NULL");
         return;
     }
 
@@ -38,9 +38,9 @@ void TestWithIntegers(void)
 
     printf(BOLDWHITE "\nEmpty Stack\n" RESETCOLOR);
 
-    PrintTest(IsStackEmpty(stack), 1, "IsStackEmpty", __LINE__);
-    PrintTest(GetCapacity(stack), stack_capacity, "GetCapacity", __LINE__);
-    PrintTest(GetSize(stack), size, "GetSize", __LINE__);
+    PrintTest(StackIsEmpty(stack), 1, "StackIsEmpty", __LINE__);
+    PrintTest(StackGetCapacity(stack), stack_capacity, "StackGetCapacity", __LINE__);
+    PrintTest(StackGetSize(stack), size, "StackGetSize", __LINE__);
 
     for (size_t i = 0; i < stack_capacity; i++)
     {
@@ -56,11 +56,11 @@ void TestWithIntegers(void)
 
     printf(BOLDWHITE "\nEmpty Stack\n" RESETCOLOR);
 
-    PrintTest(IsStackEmpty(stack), 1, "IsStackEmpty", __LINE__);
-    PrintTest(GetCapacity(stack), stack_capacity, "GetCapacity", __LINE__);
-    PrintTest(GetSize(stack), size, "GetSize", __LINE__);
+    PrintTest(StackIsEmpty(stack), 1, "StackIsEmpty", __LINE__);
+    PrintTest(StackGetCapacity(stack), stack_capacity, "StackGetCapacity", __LINE__);
+    PrintTest(StackGetSize(stack), size, "StackGetSize", __LINE__);
 
-    DestroyStack(stack);
+    StackDestroy(stack);
 
     printf(BOLDWHITE "\nTest finished.\n\n" RESETCOLOR);
 }
@@ -69,23 +69,23 @@ static void AddElementAndTest(stack_t *stack, size_t value, size_t size)
 {
     printf(BOLDWHITE "\nAdding Element \n" RESETCOLOR);
 
-    Push(stack, (void *)value);
+    StackPush(stack, (void *)value);
 
-    PrintTest((size_t)Peek(stack), value, "Peek", __LINE__);
-    PrintTest(GetSize(stack), size, "Size", __LINE__);
-    PrintTest(IsStackEmpty(stack), !size, "IsEmpty", __LINE__);
+    PrintTest((size_t)StackPeek(stack), value, "StackPeek", __LINE__);
+    PrintTest(StackGetSize(stack), size, "Size", __LINE__);
+    PrintTest(StackIsEmpty(stack), !size, "IsEmpty", __LINE__);
 }
 
 static void RemoveElementAndTest(stack_t *stack, size_t value, size_t size)
 {
     printf(BOLDWHITE "\nRemoving Element \n" RESETCOLOR);
 
-    PrintTest((size_t)Peek(stack), value, "Peek", __LINE__);
+    PrintTest((size_t)StackPeek(stack), value, "StackPeek", __LINE__);
 
-    Pop(stack);
+    StackPop(stack);
 
-    PrintTest(GetSize(stack), size, "Size", __LINE__);
-    PrintTest(IsStackEmpty(stack), !size, "IsEmpty", __LINE__);
+    PrintTest(StackGetSize(stack), size, "Size", __LINE__);
+    PrintTest(StackIsEmpty(stack), !size, "IsEmpty", __LINE__);
 }
 
 static void PrintTest(size_t result, size_t expected, char *test_name, size_t line)

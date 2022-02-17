@@ -31,7 +31,7 @@ static size_t GetStackStructSize(size_t capacity);
 /*********************************
  * API Functions Definitions
  ********************************/
-stack_t *CreateStack(size_t capacity)
+stack_t *StackCreate(size_t capacity)
 {
     assert(capacity);
 
@@ -48,7 +48,7 @@ stack_t *CreateStack(size_t capacity)
     return new_stack;
 }
 
-void DestroyStack(stack_t *stack)
+void StackDestroy(stack_t *stack)
 {
     if (!stack)
     {
@@ -60,14 +60,14 @@ void DestroyStack(stack_t *stack)
     stack = NULL;
 }
 
-void Pop(stack_t *stack)
+void StackPop(stack_t *stack)
 {
     assert(stack);
 
     stack->current_size--;
 }
 
-void Push(stack_t *stack, void *pointer_to_element)
+void StackPush(stack_t *stack, void *pointer_to_element)
 {
     assert(stack);
 
@@ -75,28 +75,28 @@ void Push(stack_t *stack, void *pointer_to_element)
     stack->current_size++;
 }
 
-void *Peek(stack_t *stack)
+void *StackPeek(stack_t *stack)
 {
     assert(stack);
 
     return stack->data_arr[stack->current_size - 1];
 }
 
-size_t GetSize(const stack_t *stack)
+size_t StackGetSize(const stack_t *stack)
 {
     assert(stack);
 
     return stack->current_size;
 }
 
-int IsStackEmpty(const stack_t *stack)
+int StackIsEmpty(const stack_t *stack)
 {
     assert(stack);
 
     return (0 == stack->current_size);
 }
 
-size_t GetCapacity(const stack_t *stack)
+size_t StackGetCapacity(const stack_t *stack)
 {
     assert(stack);
     return stack->capacity;
