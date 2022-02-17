@@ -9,7 +9,7 @@
  * -------------------------------------------------------
  * Please read the header file for the complete API.
  ********************************************************/
-
+#include <stdio.h>
 #include <stdlib.h> /* malloc(), free() */
 #include <assert.h> /* assert() */
 #include <string.h> /* memset() */
@@ -24,7 +24,7 @@ typedef struct node
 
 struct list
 {
-    struct node last;
+    struct node *last;
     struct node *first;
 };
 
@@ -32,24 +32,31 @@ struct list
  * Static Functions Declarations
  ********************************/
 static node_t *CreateNode(const void *data, node_t *next_node);
-static void SwapData(iter_t iter1, iter_t iter2);
+static void SwapData(sll_iter_t iter1, sll_iter_t iter2);
+static void SetNext(sll_iter_t iter, const sll_iter_t next);
 
 /*********************************
  * API Functions Definitions
  ********************************/
 list_t *SinglyListCreate(void)
 {
-    list_t *new_list = malloc(sizeof(list_t));
-    if (!new_list)
+    void *mem_pool = malloc(sizeof(list_t) + sizeof(node_t));
+    if (!mem_pool)
     {
         return NULL;
     }
 
+    memset(mem_pool, 0, sizeof(list_t) + sizeof(node_t));
+
+    list_t *new_list = (list_t *)mem_pool;
+    node_t *dummy_node = (node_t *)((char *)mem_pool + sizeof(list_t));
+
     /* Initialize members */
-    memset(new_list, 0, sizeof(list_t));
-    new_list->first = &(new_list->last);
-    new_list->last.data = NULL;
-    new_list->last.next = NULL;
+    new_list->first = dummy_node;
+    new_list->last = dummy_node;
+
+    dummy_node->data = NULL;
+    dummy_node->next = NULL;
 
     return new_list;
 }
@@ -61,8 +68,8 @@ void SinglyListDestroy(list_t *list)
         return;
     }
 
-    iter_t current = SinglyListBegin(list);
-    iter_t next = NULL;
+    sll_iter_t current = SinglyListBegin(list);
+    sll_iter_t next = NULL;
 
     while (current != SinglyListEnd(list))
     {
@@ -80,46 +87,52 @@ void SinglyListDestroy(list_t *list)
     list = NULL;
 }
 
-iter_t SinglyListInsert(list_t *list, iter_t iter, const void *data)
+sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data)
 {
     assert(list);
     assert(iter);
 
-    iter_t duplicated_iter = SinglyListInsertAfter(list, iter, SinglyListGetData(iter));
-    if (SinglyListIsSameIterator(duplicated_iter, SinglyListEnd(list)))
-    {
-        return SinglyListEnd(list);
-    }
-
-    iter->data = (void *)data;
-    return iter;
-}
-
-iter_t SinglyListInsertAfter(list_t *list, iter_t iter, const void *data)
-{
-    assert(list);
-    assert(iter);
-
-    iter_t next_node = iter->next;
-    node_t *new_node = CreateNode(data, next_node);
+    node_t *new_node = CreateNode(SinglyListGetData(iter), iter);
     if (!new_node)
     {
         return SinglyListEnd(list);
     }
 
-    iter->next = new_node;
+    if (SinglyListIsSameIterator(iter, SinglyListEnd(list)))
+    {
+        list->last = new_node;
+    }
 
-    return new_node;
+    SinglyListSetData(iter, data);
+    SetNext(iter, new_node);
+
+    return iter;
 }
 
-iter_t SinglyListRemove(list_t *list, iter_t iter)
+sll_iter_t SinglyListInsertAfter(list_t *list, sll_iter_t iter, const void *data)
 {
     assert(list);
     assert(iter);
 
-    iter_t next_iter = iter->next;
+    node_t *new_node = CreateNode(data, SinglyListNext(iter));
+    if (!new_node)
+    {
+        return SinglyListEnd(list);
+    }
+
+    SetNext(iter, new_node);
+
+    return new_node;
+}
+
+sll_iter_t SinglyListRemove(list_t *list, sll_iter_t iter)
+{
+    assert(list);
+    assert(iter);
+
+    sll_iter_t next_iter = SinglyListNext(iter);
     SwapData(iter, next_iter);
-    iter->next = next_iter->next;
+    SetNext(iter, SinglyListNext(next_iter));
 
     memset(iter, 0, sizeof(node_t));
     free(iter);
@@ -128,42 +141,58 @@ iter_t SinglyListRemove(list_t *list, iter_t iter)
     return next_iter;
 }
 
-void *SinglyListGetData(const iter_t iter)
+sll_iter_t SinglyListRemoveAfter(list_t *list, sll_iter_t iter)
+{
+    assert(list);
+    assert(iter);
+
+    sll_iter_t iter_to_remove = SinglyListNext(iter);
+    sll_iter_t next_after_remove = SinglyListNext(iter_to_remove);
+    SetNext(iter, next_after_remove);
+
+    memset(iter_to_remove, 0, sizeof(node_t));
+    free(iter_to_remove);
+    iter_to_remove = NULL;
+
+    return iter;
+}
+
+void *SinglyListGetData(const sll_iter_t iter)
 {
     assert(iter);
 
     return iter->data;
 }
 
-void SinglyListSetData(iter_t iter, const void *data)
+void SinglyListSetData(sll_iter_t iter, const void *data)
 {
     assert(iter);
 
     iter->data = (void *)data;
 }
 
-iter_t SinglyListBegin(const list_t *list)
+sll_iter_t SinglyListBegin(const list_t *list)
 {
     assert(list);
 
     return list->first;
 }
 
-iter_t SinglyListEnd(const list_t *list)
+sll_iter_t SinglyListEnd(const list_t *list)
 {
     assert(list);
 
-    return (iter_t)(&(list->last));
+    return list->last;
 }
 
-iter_t SinglyListNext(const iter_t iter)
+sll_iter_t SinglyListNext(const sll_iter_t iter)
 {
     assert(iter);
 
     return iter->next;
 }
 
-int SinglyListIsSameIterator(const iter_t iter1, const iter_t iter2)
+int SinglyListIsSameIterator(const sll_iter_t iter1, const sll_iter_t iter2)
 {
     assert(iter1);
     assert(iter2);
@@ -171,12 +200,13 @@ int SinglyListIsSameIterator(const iter_t iter1, const iter_t iter2)
     return iter1 == iter2;
 }
 
-iter_t SinglyListFind(const list_t *list, void *param,
-                      int (*is_match_func)(const void *iterated_data, const void *param))
+sll_iter_t SinglyListFind(const list_t *list, void *param,
+                          int (*is_match_func)(const void *iterated_data, const void *param))
 {
     assert(list);
     assert(is_match_func);
-    iter_t iter = NULL;
+
+    sll_iter_t iter = NULL;
 
     for (iter = SinglyListBegin(list);
          iter != SinglyListEnd(list);
@@ -191,12 +221,12 @@ iter_t SinglyListFind(const list_t *list, void *param,
     return iter;
 }
 
-iter_t SinglyListForEach(list_t *list, void *param,
-                         int (*oper_func)(void *iterated_data, void *param))
+sll_iter_t SinglyListForEach(list_t *list, void *param,
+                             int (*oper_func)(void *iterated_data, void *param))
 {
     assert(list);
     assert(oper_func);
-    iter_t iter = NULL;
+    sll_iter_t iter = NULL;
 
     for (iter = SinglyListBegin(list);
          iter != SinglyListEnd(list);
@@ -217,7 +247,7 @@ size_t SinglyListGetSize(const list_t *list)
 
     size_t size = 0;
 
-    for (iter_t iter = SinglyListBegin(list);
+    for (sll_iter_t iter = SinglyListBegin(list);
          iter != SinglyListEnd(list);
          iter = SinglyListNext(iter))
     {
@@ -229,7 +259,7 @@ size_t SinglyListGetSize(const list_t *list)
 
 int SinglyListIsEmpty(const list_t *list)
 {
-    return SinglyListIsSameIterator(list->first, (iter_t)(&(list->last)));
+    return SinglyListIsSameIterator(list->first, list->last);
 }
 
 /*********************************
@@ -251,7 +281,7 @@ static node_t *CreateNode(const void *data, node_t *next_node)
     return new_node;
 }
 
-static void SwapData(iter_t iter1, iter_t iter2)
+static void SwapData(sll_iter_t iter1, sll_iter_t iter2)
 {
     assert(iter1);
     assert(iter2);
@@ -259,4 +289,11 @@ static void SwapData(iter_t iter1, iter_t iter2)
     void *iter1_data = SinglyListGetData(iter1);
     SinglyListSetData(iter1, SinglyListGetData(iter2));
     SinglyListSetData(iter2, iter1_data);
+}
+
+static void SetNext(sll_iter_t iter, const sll_iter_t next)
+{
+    assert(iter);
+
+    iter->next = next;
 }

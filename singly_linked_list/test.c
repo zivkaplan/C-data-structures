@@ -1,114 +1,114 @@
-#include <stdio.h> /* printf() */
+#include <stdlib.h> /* malloc(), free() */
+#include <stdio.h>  /* printf() */
+#include <assert.h> /* assert() */
 
-#include "singly_linked_list.h" /* Create(), Destroy() */
+#include "singly_linked_list.h"
 
-#define GREEN "\033[32m"
-#define RED "\033[31m"
-#define YELLOW "\033[33m"
-#define BOLDWHITE "\033[1m\033[37m"
 #define RESETCOLOR "\033[0m"
+#define MAGENTA "\033[35m"
+#define BLUE "\033[34m"
+#define YELLOW "\033[33m"
+#define BOLDWHITE "\033[37m\033[1m"
 
-static const size_t NUM_OF_ELEMENTS_INSERT = 10;
-static const size_t NUM_OF_ELEMENTS_INSERT_AFTER = 10;
-
-typedef iter_t (*insert_func_t)(list_t *, iter_t, const void *);
-
-void TestWithIntegers(void);
-
-static iter_t AddElementAndTest(list_t *list, iter_t iter, insert_func_t insert_func, size_t value, size_t size);
-static iter_t RemoveElementAndTest(list_t *list, iter_t iter, size_t value, size_t size);
-static void PrintTest(size_t result, size_t expected, char *test_name, size_t line);
+static int PrintNode(void *el, __attribute__((unused)) void *none);
+static int FindNodeByVal(const void *el, const void *val);
+void RunTest();
 
 int main()
 {
-    TestWithIntegers();
+    RunTest();
+    return 0;
+}
+
+void RunTest()
+{
+    int a = 1, b = 2, c = 3, d = 4;
+
+    list_t *list = SinglyListCreate();
+    sll_iter_t iter = SinglyListEnd(list);
+    sll_iter_t found_iter = NULL;
+
+    printf(BOLDWHITE "\nEmpty List\n" RESETCOLOR);
+
+    /* check empty list */
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+
+    /* add an item and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n1 Element\n" RESETCOLOR);
+    iter = SinglyListInsert(list, iter, &a);
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* add an item and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n2 Elements\n" RESETCOLOR);
+    iter = SinglyListInsertAfter(list, iter, &b);
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* add an item and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n3 Elements\n" RESETCOLOR);
+    iter = SinglyListInsert(list, iter, &c);
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* add an item and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n4 Elements\n" RESETCOLOR);
+    iter = SinglyListInsert(list, iter, &d);
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* search for item with value 4, print it, update it to 5 and print it again */
+    printf(BOLDWHITE "\nFind Element and Change its Value\n" RESETCOLOR);
+    found_iter = SinglyListFind(list, &d, FindNodeByVal);
+    printf("found iter value is %d\n", *(int *)(SinglyListGetData(found_iter)));
+    d++;
+    SinglyListSetData(found_iter, &d);
+    printf("found iter value changed to %d\n", *(int *)(SinglyListGetData(found_iter)));
+
+    /* remove the element after it (the last), and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n3 Elements\n" RESETCOLOR);
+    iter = SinglyListRemoveAfter(list, found_iter);
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* remove the first element, and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n2 Elements\n" RESETCOLOR);
+    iter = SinglyListRemove(list, SinglyListBegin(list));
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* remove the second (last in order element), and then check size and is empty and foreach */
+    printf(BOLDWHITE "\n1 Element\n" RESETCOLOR);
+    iter = SinglyListRemoveAfter(list, SinglyListBegin(list));
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+    SinglyListForEach(list, NULL, PrintNode);
+
+    /* remove the first and only element left, and then check size and is empty and foreach */
+    printf(BOLDWHITE "\nEmpty\n" RESETCOLOR);
+    iter = SinglyListRemove(list, SinglyListBegin(list));
+    printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
+    printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
+
+    SinglyListDestroy(list);
+    list = NULL;
+}
+
+static int PrintNode(void *el, __attribute__((unused)) void *none)
+{
+    printf(MAGENTA "\tdata: %d\n", *(int *)el);
 
     return 0;
 }
 
-void TestWithIntegers(void)
+static int FindNodeByVal(const void *el, const void *val)
 {
-    size_t size = 0;
-    list_t *list = SinglyListCreate();
-    if (NULL == list)
-    {
-        printf(YELLOW "SinglyListCreate returned NULL");
-        return;
-    }
-
-    printf(BOLDWHITE "\nSinglyList with integers (size_t variables):\n" RESETCOLOR);
-
-    printf(BOLDWHITE "\nEmpty List\n" RESETCOLOR);
-
-    PrintTest(SinglyListIsEmpty(list), 1, "IsListEmpty", __LINE__);
-    PrintTest(SinglyListGetSize(list), size, "SinglyListGetSize", __LINE__);
-
-    iter_t iter = SinglyListBegin(list);
-    for (size_t i = 0; i < NUM_OF_ELEMENTS_INSERT; i++)
-    {
-        size++;
-        iter = AddElementAndTest(list, iter, SinglyListInsert, i, size);
-    }
-
-    for (size_t i = 0; i < NUM_OF_ELEMENTS_INSERT_AFTER; i++)
-    {
-        size++;
-        iter = AddElementAndTest(list, iter, SinglyListInsertAfter, i, size);
-    }
-
-    for (size_t i = NUM_OF_ELEMENTS_INSERT + NUM_OF_ELEMENTS_INSERT_AFTER;
-         i > 0; i--)
-    {
-        size--;
-        RemoveElementAndTest(list, iter, i - 1, size);
-    }
-
-    printf(BOLDWHITE "\nEmpty Stack\n" RESETCOLOR);
-
-    PrintTest(SinglyListIsEmpty(list), 1, "SinglyListIsEmpty", __LINE__);
-    PrintTest(SinglyListGetSize(list), size, "SinglyListGetSize", __LINE__);
-
-    SinglyListDestroy(list);
-
-    printf(BOLDWHITE "\nTest finished.\n\n" RESETCOLOR);
-}
-
-static iter_t AddElementAndTest(list_t *list, iter_t iter,
-                                insert_func_t insert_func,
-                                size_t value, size_t size)
-{
-    printf(BOLDWHITE "\nAdding Element \n" RESETCOLOR);
-
-    iter_t new_iter = insert_func(list, iter, (void *)value);
-
-    PrintTest((size_t)SinglyListGetData(new_iter), value, "GetData", __LINE__);
-    PrintTest(SinglyListGetSize(list), size, "Size", __LINE__);
-    PrintTest(SinglyListIsEmpty(list), !size, "IsEmpty", __LINE__);
-
-    return iter;
-}
-
-static iter_t RemoveElementAndTest(list_t *list, iter_t iter, size_t value, size_t size)
-{
-    printf(BOLDWHITE "\nRemoving Element \n" RESETCOLOR);
-
-    PrintTest((size_t)SinglyListGetData(iter), value, "GetData", __LINE__);
-
-    SinglyListRemove(list, iter);
-
-    PrintTest(SinglyListGetSize(list), size, "Size", __LINE__);
-    PrintTest(SinglyListIsEmpty(list), !size, "IsEmpty", __LINE__);
-}
-
-static void PrintTest(size_t result, size_t expected, char *test_name, size_t line)
-{
-    if (result == expected)
-    {
-        printf(GREEN "\t%s Passed\n" RESETCOLOR, test_name);
-    }
-    else
-    {
-        printf(RED "\t%s Failed. expected: %ld, result: %ld. (line %ld)\n" RESETCOLOR,
-               test_name, expected, result, line);
-    }
+    return !(*(int *)el == *(int *)val);
 }
