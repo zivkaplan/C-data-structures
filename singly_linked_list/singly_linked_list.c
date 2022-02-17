@@ -16,22 +16,23 @@
 
 #include "singly_linked_list.h" /* header of this source file */
 
-struct list
-{
-    struct node *first;
-    struct node last;
-    size_t size;
-};
-
 typedef struct node
 {
     struct node *next;
     void *data;
 } node_t;
 
+struct list
+{
+    struct node last;
+    struct node *first;
+    size_t size;
+};
+
 /*********************************
  * Static Functions Declarations
  ********************************/
+static node_t *CreateNode(const void *data, node_t *next_node);
 static void SwapData(iter_t iter1, iter_t iter2);
 
 /*********************************
@@ -61,12 +62,13 @@ void DestroyList(list_t *list)
     {
         return;
     }
-    iter_t current = GetNode(ListBegin(list));
+
+    iter_t current = ListBegin(list);
     iter_t next = NULL;
 
     while (current != ListEnd(list))
     {
-        next = GetNext(current);
+        next = ListNext(current);
 
         memset(current, 0, sizeof(node_t));
         free(current);
@@ -91,7 +93,7 @@ iter_t Insert(list_t *list, iter_t iter, const void *data)
         return ListEnd(list);
     }
 
-    iter->data = data;
+    iter->data = (void *)data;
     return iter;
 }
 
@@ -101,7 +103,7 @@ iter_t InsertAfter(list_t *list, iter_t iter, const void *data)
     assert(iter);
 
     iter_t next_node = iter->next;
-    iter_t new_node = CreateNode(data, next_node); /* TODO: implement */
+    node_t *new_node = CreateNode(data, next_node);
     if (!new_node)
     {
         return ListEnd(list);
@@ -139,7 +141,7 @@ void SetData(iter_t iter, const void *data)
 {
     assert(iter);
 
-    iter->data = data;
+    iter->data = (void *)data;
 }
 
 iter_t ListBegin(const list_t *list)
@@ -153,7 +155,7 @@ iter_t ListEnd(const list_t *list)
 {
     assert(list);
 
-    return (&(list->last));
+    return (iter_t)(&(list->last));
 }
 
 iter_t ListNext(const iter_t iter)
@@ -225,7 +227,23 @@ int ListIsEmpty(const list_t *list)
 
 /*********************************
  * Static Functions Definitions
- ********************************/
+ *********************************/
+
+static node_t *CreateNode(const void *data, node_t *next_node)
+{
+    node_t *new_node = malloc(sizeof(node_t));
+    if (!new_node)
+    {
+        return NULL;
+    }
+
+    memset(new_node, 0, sizeof(node_t));
+    new_node->data = (void *)data;
+    new_node->next = next_node;
+
+    return new_node;
+}
+
 static void SwapData(iter_t iter1, iter_t iter2)
 {
     assert(iter1);
