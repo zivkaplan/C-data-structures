@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "singly_linked_list.h": "c"
+    }
+}
