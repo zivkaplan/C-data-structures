@@ -24,16 +24,15 @@ returns NULL on failure.
 void DestroyList(list_t *list);
 /* Calling DestroyList(NULL) is valid */
 
-iter_t Insert(list_t list, iter_t iter, const void *data);
-iter_t InsertAfter(list_t list, iter_t iter, const void *data);
+iter_t Insert(list_t *list, iter_t iter, const void *data);
+iter_t InsertAfter(list_t *list, iter_t iter, const void *data);
 /* returns the new inserted data on success, or list end on failure.
 Insert(ListBegin) is undefined.
 InsertAfter(ListEnd) is undefined.
 To insert the first element use Insert(ListEnd) or InsertAfter(ListBegin).
 */
 
-iter_t Remove(list_t list, iter_t iter);
-iter_t RemoveAfter(list_t list, iter_t iter);
+iter_t Remove(list_t *list, iter_t iter);
 /*
 return value is the next iterator.
 Removing ListEnd is undefined.
@@ -67,8 +66,5 @@ otherwise returns the iterator on which it was stopped.
 
 size_t ListGetSize(const list_t *list);
 int ListIsEmpty(const list_t *list);
-
-void SLListAppend(list_t *dest, list_t *src);
-/* Concatenate src to the end of dest */
 
 #endif /* __SINGLY_LINKED_LIST_H__ */

@@ -23,8 +23,14 @@ struct stack
     void *data_arr[1];
 };
 
+/*********************************
+ * Static Functions declarations
+ ********************************/
 static size_t GetStackStructSize(size_t capacity);
 
+/*********************************
+ * API Functions Definitions
+ ********************************/
 stack_t *CreateStack(size_t capacity)
 {
     assert(capacity);
@@ -96,6 +102,9 @@ size_t GetCapacity(const stack_t *stack)
     return stack->capacity;
 }
 
+/*********************************
+ * Static Functions Definitions
+ ********************************/
 static size_t GetStackStructSize(size_t capacity)
 {
     return (sizeof(stack_t) + (sizeof(void *) * (capacity - 1)));

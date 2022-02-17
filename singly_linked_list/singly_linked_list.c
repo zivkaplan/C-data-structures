@@ -29,6 +29,14 @@ typedef struct node
     void *data;
 } node_t;
 
+/*********************************
+ * Static Functions Declarations
+ ********************************/
+static void SwapData(iter_t iter1, iter_t iter2);
+
+/*********************************
+ * API Functions Definitions
+ ********************************/
 list_t *CreateList(void)
 {
     list_t *new_list = malloc(sizeof(list_t));
@@ -72,11 +80,53 @@ void DestroyList(list_t *list)
     list = NULL;
 }
 
-iter_t Insert(list_t list, iter_t iter, const void *data);
-iter_t InsertAfter(list_t list, iter_t iter, const void *data);
+iter_t Insert(list_t *list, iter_t iter, const void *data)
+{
+    assert(list);
+    assert(iter);
 
-iter_t Remove(list_t list, iter_t iter);
-iter_t RemoveAfter(list_t list, iter_t iter);
+    iter_t duplicated_iter = InsertAfter(list, iter, GetData(iter));
+    if (IsSameIterator(duplicated_iter, ListEnd(list)))
+    {
+        return ListEnd(list);
+    }
+
+    iter->data = data;
+    return iter;
+}
+
+iter_t InsertAfter(list_t *list, iter_t iter, const void *data)
+{
+    assert(list);
+    assert(iter);
+
+    iter_t next_node = iter->next;
+    iter_t new_node = CreateNode(data, next_node); /* TODO: implement */
+    if (!new_node)
+    {
+        return ListEnd(list);
+    }
+
+    iter->next = new_node;
+
+    return new_node;
+}
+
+iter_t Remove(list_t *list, iter_t iter)
+{
+    assert(list);
+    assert(iter);
+
+    iter_t next_iter = iter->next;
+    SwapData(iter, next_iter);
+    iter->next = next_iter->next;
+
+    memset(iter, 0, sizeof(node_t));
+    free(iter);
+    iter = NULL;
+
+    return next_iter;
+}
 
 void *GetData(const iter_t iter)
 {
@@ -173,5 +223,15 @@ int ListIsEmpty(const list_t *list)
     return 0 == list->size; /* also possible: list->first == &(list->end) */
 }
 
-void SLListAppend(list_t *dest, list_t *src);
-/* Concatenate src to the end of dest */
+/*********************************
+ * Static Functions Definitions
+ ********************************/
+static void SwapData(iter_t iter1, iter_t iter2)
+{
+    assert(iter1);
+    assert(iter2);
+
+    void *iter1_data = GetData(iter1);
+    SetData(iter1, GetData(iter2));
+    SetData(iter2, iter1_data);
+}
