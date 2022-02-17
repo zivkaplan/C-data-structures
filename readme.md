@@ -2,13 +2,15 @@
 
 ## Usable implementations of common data structures written in C.
 
-Tested:
+### Ready:
 - Stack
 
-In Progress:
+
+### In Progress:
 - Singly Linked List
 
-To Do: 
+
+### To Do (in the near future): 
 - Doubly Linked List
 - Vector
 - Queue
