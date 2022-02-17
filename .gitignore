@@ -1,0 +1,11 @@
+*
+!/**/
+.vscode
+
+!*.c
+!*.h
+!.gitignore
+![mM]ake*
+!*.cpp
+!*.hpp
+!*.md*
