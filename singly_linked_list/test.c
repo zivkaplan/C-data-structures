@@ -94,6 +94,7 @@ void RunTest()
 
     /* remove the first and only element left, and then check size and is empty and foreach */
     printf(BOLDWHITE "\nEmpty\n" RESETCOLOR);
+    iter = SinglyListRemove(list, SinglyListBegin(list));
     printf(BLUE "list size = %ld\n" RESETCOLOR, SinglyListGetSize(list));
     printf(YELLOW "is empty? %s\n" RESETCOLOR, SinglyListIsEmpty(list) ? "yes" : "no");
 

@@ -28,6 +28,8 @@ struct list
     struct node *first;
 };
 
+static const size_t LIST_W_DUMMY_SIZE = sizeof(list_t) + sizeof(node_t);
+
 /*********************************
  * Static Functions Declarations
  ********************************/
@@ -40,13 +42,13 @@ static void SetNext(sll_iter_t iter, const sll_iter_t next);
  ********************************/
 list_t *SinglyListCreate(void)
 {
-    void *mem_pool = malloc(sizeof(list_t) + sizeof(node_t));
+    void *mem_pool = malloc(LIST_W_DUMMY_SIZE);
     if (!mem_pool)
     {
         return NULL;
     }
 
-    memset(mem_pool, 0, sizeof(list_t) + sizeof(node_t));
+    memset(mem_pool, 0, LIST_W_DUMMY_SIZE);
 
     list_t *new_list = (list_t *)mem_pool;
     node_t *dummy_node = (node_t *)((char *)mem_pool + sizeof(list_t));
@@ -71,7 +73,7 @@ void SinglyListDestroy(list_t *list)
     sll_iter_t current = SinglyListBegin(list);
     sll_iter_t next = NULL;
 
-    while (current != SinglyListEnd(list))
+    while (!SinglyListIsSameIterator(SinglyListEnd(list), current))
     {
         next = SinglyListNext(current);
 
@@ -81,7 +83,7 @@ void SinglyListDestroy(list_t *list)
         current = next;
     }
 
-    memset(list, 0, sizeof(list_t));
+    memset(list, 0, LIST_W_DUMMY_SIZE);
     free(list);
 
     list = NULL;
@@ -98,13 +100,18 @@ sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data)
         return SinglyListEnd(list);
     }
 
-    if (SinglyListIsSameIterator(iter, SinglyListEnd(list)))
+    SinglyListSetData(iter, data);
+    SetNext(iter, new_node);
+
+    if (SinglyListIsSameIterator(list->first, iter))
+    {
+        list->first = iter;
+    }
+
+    if (SinglyListIsSameIterator(list->last, iter))
     {
         list->last = new_node;
     }
-
-    SinglyListSetData(iter, data);
-    SetNext(iter, new_node);
 
     return iter;
 }
@@ -209,7 +216,7 @@ sll_iter_t SinglyListFind(const list_t *list, void *param,
     sll_iter_t iter = NULL;
 
     for (iter = SinglyListBegin(list);
-         iter != SinglyListEnd(list);
+         !SinglyListIsSameIterator(SinglyListEnd(list), iter);
          iter = SinglyListNext(iter))
     {
         if (is_match_func(iter->data, param))
@@ -229,7 +236,7 @@ sll_iter_t SinglyListForEach(list_t *list, void *param,
     sll_iter_t iter = NULL;
 
     for (iter = SinglyListBegin(list);
-         iter != SinglyListEnd(list);
+         !SinglyListIsSameIterator(SinglyListEnd(list), iter);
          iter = SinglyListNext(iter))
     {
         if (oper_func(iter->data, param))
@@ -248,7 +255,7 @@ size_t SinglyListGetSize(const list_t *list)
     size_t size = 0;
 
     for (sll_iter_t iter = SinglyListBegin(list);
-         iter != SinglyListEnd(list);
+         !SinglyListIsSameIterator(SinglyListEnd(list), iter);
          iter = SinglyListNext(iter))
     {
         size++;

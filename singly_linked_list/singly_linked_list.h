@@ -27,9 +27,9 @@ void SinglyListDestroy(list_t *list);
 sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data);
 sll_iter_t SinglyListInsertAfter(list_t *list, sll_iter_t iter, const void *data);
 /* returns the new inserted data on success, or list end on failure.
-Insert(ListBegin) is undefined.
-InsertAfter(ListEnd) is undefined.
-To insert the first element use Insert(ListEnd) or InsertAfter(ListBegin).
+To insert the first element use only Insert(ListEnd).
+InsertAfter(ListBegin) on an empty list is undefined.
+InsertAfter(ListEnd) on any list is undefined.
 */
 
 sll_iter_t SinglyListRemove(list_t *list, sll_iter_t iter);
@@ -37,6 +37,7 @@ sll_iter_t SinglyListRemoveAfter(list_t *list, sll_iter_t iter);
 /*
 return value is the previous iterator.
 Removing ListEnd is undefined.
+Calling any Remove method on an empty list is undefined.
 */
 
 void *SinglyListGetData(const sll_iter_t iter);
