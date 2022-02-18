@@ -100,6 +100,8 @@ void RunTest()
 
     SinglyListDestroy(list);
     list = NULL;
+
+    printf(BOLDWHITE "\nTest finished.\n" RESETCOLOR);
 }
 
 static int PrintNode(void *el, __attribute__((unused)) void *none)
