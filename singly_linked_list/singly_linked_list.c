@@ -103,11 +103,6 @@ sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data)
     SinglyListSetData(iter, data);
     SetNext(iter, new_node);
 
-    if (SinglyListIsSameIterator(list->first, iter))
-    {
-        list->first = iter;
-    }
-
     if (SinglyListIsSameIterator(list->last, iter))
     {
         list->last = new_node;
@@ -140,6 +135,11 @@ sll_iter_t SinglyListRemove(list_t *list, sll_iter_t iter)
     sll_iter_t iter_to_remove = SinglyListNext(iter);
     SwapData(iter, iter_to_remove);
     SetNext(iter, SinglyListNext(iter_to_remove));
+
+    if (SinglyListIsSameIterator(list->last, iter_to_remove))
+    {
+        list->last = iter;
+    }
 
     memset(iter_to_remove, 0, sizeof(node_t));
     free(iter_to_remove);
