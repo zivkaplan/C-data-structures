@@ -13,14 +13,14 @@ Note that some DS will be built upon others.
 - Stack
 - Singly Linked List
 - Queue (using singly linked list)
-
-
-### 🟡 In Progress:
 - Doubly Linked List
 
 
-### 🟠 To Do (in the near future): 
+### 🟡 In Progress:
 - Vector
+
+
+### 🟠 To Do (in the near future): 
 - Circular Queue (fixed sized queue using array)
 - Binary Search Tree
 - AVL
