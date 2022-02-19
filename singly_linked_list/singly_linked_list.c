@@ -229,17 +229,17 @@ sll_iter_t SinglyListFind(const singly_list_t *list, void *param,
 }
 
 sll_iter_t SinglyListForEach(singly_list_t *list, void *param,
-                             int (*oper_func)(void *iterated_data, void *param))
+                             int (*operation_func)(void *iterated_data, void *param))
 {
     assert(list);
-    assert(oper_func);
+    assert(operation_func);
     sll_iter_t iter = NULL;
 
     for (iter = SinglyListBegin(list);
          !SinglyListIsSameIterator(SinglyListEnd(list), iter);
          iter = SinglyListNext(iter))
     {
-        if (oper_func(iter->data, param))
+        if (operation_func(iter->data, param))
         {
             break;
         }

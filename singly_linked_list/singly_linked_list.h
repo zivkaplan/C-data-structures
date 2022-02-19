@@ -59,7 +59,7 @@ returns ListEnd If No match found.
 */
 
 sll_iter_t SinglyListForEach(singly_list_t *list, void *param,
-                             int (*oper_func)(void *iterated_data, void *param));
+                             int (*operation_func)(void *iterated_data, void *param));
 /*
 iteration continue while oper_func returns 0.
 returns ListEnd if iterated the entire list,
