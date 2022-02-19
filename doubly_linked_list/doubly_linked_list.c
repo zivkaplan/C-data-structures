@@ -68,7 +68,12 @@ void DoublyListDestroy(doubly_list_t *list)
     while (!DoublyListIsSameIterator(iter, list_end_iter))
     {
         dll_iter_t next_iter = DoublyListNext(iter);
-        }
+        memset(iter, 0, sizeof(dll_node_t));
+        free(iter);
+
+        iter = next_iter;
+    }
+    iter = NULL;
 }
 
 dll_iter_t DoublyListBegin(const doubly_list_t *list)

@@ -82,6 +82,8 @@ void SinglyListDestroy(singly_list_t *list)
         current = next;
     }
 
+    current = NULL;
+
     memset(list, 0, LIST_W_DUMMY_SIZE);
     free(list);
 
