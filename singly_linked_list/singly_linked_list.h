@@ -14,7 +14,7 @@
  **********************************/
 
 typedef struct singly_list singly_list_t;
-typedef struct node *sll_iter_t;
+typedef struct sll_node *sll_iter_t;
 
 singly_list_t *SinglyListCreate(void);
 /* returns NULL on failure.*/

@@ -16,24 +16,24 @@
 
 #include "singly_linked_list.h" /* header of this source file */
 
-typedef struct node
+typedef struct sll_node
 {
-    struct node *next;
+    struct sll_node *next;
     void *data;
-} node_t;
+} sll_node_t;
 
 struct singly_list
 {
-    struct node *last;
-    struct node *first;
+    struct sll_node *last;
+    struct sll_node *first;
 };
 
-static const size_t LIST_W_DUMMY_SIZE = sizeof(singly_list_t) + sizeof(node_t);
+static const size_t LIST_W_DUMMY_SIZE = sizeof(singly_list_t) + sizeof(sll_node_t);
 
 /*********************************
  * Static Functions Declarations
  ********************************/
-static node_t *CreateNode(const void *data, node_t *next_node);
+static sll_node_t *CreateNode(const void *data, sll_node_t *next_node);
 static void SwapData(sll_iter_t iter1, sll_iter_t iter2);
 static void SetNext(sll_iter_t iter, const sll_iter_t next);
 
@@ -51,7 +51,7 @@ singly_list_t *SinglyListCreate(void)
     memset(mem_pool, 0, LIST_W_DUMMY_SIZE);
 
     singly_list_t *new_list = (singly_list_t *)mem_pool;
-    node_t *dummy_node = (node_t *)((char *)mem_pool + sizeof(singly_list_t));
+    sll_node_t *dummy_node = (sll_node_t *)((char *)mem_pool + sizeof(singly_list_t));
 
     /* Initialize members */
     new_list->first = dummy_node;
@@ -77,7 +77,7 @@ void SinglyListDestroy(singly_list_t *list)
     {
         next = SinglyListNext(current);
 
-        memset(current, 0, sizeof(node_t));
+        memset(current, 0, sizeof(sll_node_t));
         free(current);
 
         current = next;
@@ -94,7 +94,7 @@ sll_iter_t SinglyListInsert(singly_list_t *list, sll_iter_t iter, const void *da
     assert(list);
     assert(iter);
 
-    node_t *new_node = CreateNode(SinglyListGetData(iter), SinglyListNext(iter));
+    sll_node_t *new_node = CreateNode(SinglyListGetData(iter), SinglyListNext(iter));
     if (!new_node)
     {
         return SinglyListEnd(list);
@@ -116,7 +116,7 @@ sll_iter_t SinglyListInsertAfter(singly_list_t *list, sll_iter_t iter, const voi
     assert(list);
     assert(iter);
 
-    node_t *new_node = CreateNode(data, SinglyListNext(iter));
+    sll_node_t *new_node = CreateNode(data, SinglyListNext(iter));
     if (!new_node)
     {
         return SinglyListEnd(list);
@@ -141,7 +141,7 @@ sll_iter_t SinglyListRemove(singly_list_t *list, sll_iter_t iter)
         list->last = iter;
     }
 
-    memset(iter_to_remove, 0, sizeof(node_t));
+    memset(iter_to_remove, 0, sizeof(sll_node_t));
     free(iter_to_remove);
     iter_to_remove = NULL;
 
@@ -157,7 +157,7 @@ sll_iter_t SinglyListRemoveAfter(singly_list_t *list, sll_iter_t iter)
     sll_iter_t next_after_remove = SinglyListNext(iter_to_remove);
     SetNext(iter, next_after_remove);
 
-    memset(iter_to_remove, 0, sizeof(node_t));
+    memset(iter_to_remove, 0, sizeof(sll_node_t));
     free(iter_to_remove);
     iter_to_remove = NULL;
 
@@ -273,15 +273,15 @@ int SinglyListIsEmpty(const singly_list_t *list)
  * Static Functions Definitions
  *********************************/
 
-static node_t *CreateNode(const void *data, node_t *next_node)
+static sll_node_t *CreateNode(const void *data, sll_node_t *next_node)
 {
-    node_t *new_node = malloc(sizeof(node_t));
+    sll_node_t *new_node = malloc(sizeof(sll_node_t));
     if (!new_node)
     {
         return NULL;
     }
 
-    memset(new_node, 0, sizeof(node_t));
+    memset(new_node, 0, sizeof(sll_node_t));
     new_node->data = (void *)data;
     new_node->next = next_node;
 
