@@ -24,7 +24,7 @@ void RunTest()
 {
     int a = 1, b = 2, c = 3, d = 4;
 
-    list_t *list = SinglyListCreate();
+    singly_list_t *list = SinglyListCreate();
     sll_iter_t iter = SinglyListEnd(list);
     sll_iter_t found_iter = NULL;
 

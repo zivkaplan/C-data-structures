@@ -22,13 +22,13 @@ typedef struct node
     void *data;
 } node_t;
 
-struct list
+struct singly_list
 {
     struct node *last;
     struct node *first;
 };
 
-static const size_t LIST_W_DUMMY_SIZE = sizeof(list_t) + sizeof(node_t);
+static const size_t LIST_W_DUMMY_SIZE = sizeof(singly_list_t) + sizeof(node_t);
 
 /*********************************
  * Static Functions Declarations
@@ -40,7 +40,7 @@ static void SetNext(sll_iter_t iter, const sll_iter_t next);
 /*********************************
  * API Functions Definitions
  ********************************/
-list_t *SinglyListCreate(void)
+singly_list_t *SinglyListCreate(void)
 {
     void *mem_pool = malloc(LIST_W_DUMMY_SIZE);
     if (!mem_pool)
@@ -50,8 +50,8 @@ list_t *SinglyListCreate(void)
 
     memset(mem_pool, 0, LIST_W_DUMMY_SIZE);
 
-    list_t *new_list = (list_t *)mem_pool;
-    node_t *dummy_node = (node_t *)((char *)mem_pool + sizeof(list_t));
+    singly_list_t *new_list = (singly_list_t *)mem_pool;
+    node_t *dummy_node = (node_t *)((char *)mem_pool + sizeof(singly_list_t));
 
     /* Initialize members */
     new_list->first = dummy_node;
@@ -63,7 +63,7 @@ list_t *SinglyListCreate(void)
     return new_list;
 }
 
-void SinglyListDestroy(list_t *list)
+void SinglyListDestroy(singly_list_t *list)
 {
     if (!list)
     {
@@ -89,7 +89,7 @@ void SinglyListDestroy(list_t *list)
     list = NULL;
 }
 
-sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data)
+sll_iter_t SinglyListInsert(singly_list_t *list, sll_iter_t iter, const void *data)
 {
     assert(list);
     assert(iter);
@@ -111,7 +111,7 @@ sll_iter_t SinglyListInsert(list_t *list, sll_iter_t iter, const void *data)
     return iter;
 }
 
-sll_iter_t SinglyListInsertAfter(list_t *list, sll_iter_t iter, const void *data)
+sll_iter_t SinglyListInsertAfter(singly_list_t *list, sll_iter_t iter, const void *data)
 {
     assert(list);
     assert(iter);
@@ -127,7 +127,7 @@ sll_iter_t SinglyListInsertAfter(list_t *list, sll_iter_t iter, const void *data
     return new_node;
 }
 
-sll_iter_t SinglyListRemove(list_t *list, sll_iter_t iter)
+sll_iter_t SinglyListRemove(singly_list_t *list, sll_iter_t iter)
 {
     assert(list);
     assert(iter);
@@ -148,7 +148,7 @@ sll_iter_t SinglyListRemove(list_t *list, sll_iter_t iter)
     return SinglyListNext(iter);
 }
 
-sll_iter_t SinglyListRemoveAfter(list_t *list, sll_iter_t iter)
+sll_iter_t SinglyListRemoveAfter(singly_list_t *list, sll_iter_t iter)
 {
     assert(list);
     assert(iter);
@@ -178,14 +178,14 @@ void SinglyListSetData(sll_iter_t iter, const void *data)
     iter->data = (void *)data;
 }
 
-sll_iter_t SinglyListBegin(const list_t *list)
+sll_iter_t SinglyListBegin(const singly_list_t *list)
 {
     assert(list);
 
     return list->first;
 }
 
-sll_iter_t SinglyListEnd(const list_t *list)
+sll_iter_t SinglyListEnd(const singly_list_t *list)
 {
     assert(list);
 
@@ -207,7 +207,7 @@ int SinglyListIsSameIterator(const sll_iter_t iter1, const sll_iter_t iter2)
     return iter1 == iter2;
 }
 
-sll_iter_t SinglyListFind(const list_t *list, void *param,
+sll_iter_t SinglyListFind(const singly_list_t *list, void *param,
                           int (*is_match_func)(const void *iterated_data, const void *param))
 {
     assert(list);
@@ -228,7 +228,7 @@ sll_iter_t SinglyListFind(const list_t *list, void *param,
     return iter;
 }
 
-sll_iter_t SinglyListForEach(list_t *list, void *param,
+sll_iter_t SinglyListForEach(singly_list_t *list, void *param,
                              int (*oper_func)(void *iterated_data, void *param))
 {
     assert(list);
@@ -248,7 +248,7 @@ sll_iter_t SinglyListForEach(list_t *list, void *param,
     return iter;
 }
 
-size_t SinglyListGetSize(const list_t *list)
+size_t SinglyListGetSize(const singly_list_t *list)
 {
     assert(list);
 
@@ -264,7 +264,7 @@ size_t SinglyListGetSize(const list_t *list)
     return size;
 }
 
-int SinglyListIsEmpty(const list_t *list)
+int SinglyListIsEmpty(const singly_list_t *list)
 {
     return SinglyListIsSameIterator(list->first, list->last);
 }
