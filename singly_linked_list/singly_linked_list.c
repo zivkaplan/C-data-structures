@@ -33,7 +33,7 @@ static const size_t LIST_W_DUMMY_SIZE = sizeof(singly_list_t) + sizeof(sll_node_
 /*********************************
  * Static Functions Declarations
  ********************************/
-static sll_node_t *CreateNode(const void *data, sll_node_t *next_node);
+static sll_node_t *CreateNode(const void *data, const sll_node_t *next_node);
 static void SwapData(sll_iter_t iter1, sll_iter_t iter2);
 static void SetNext(sll_iter_t iter, const sll_iter_t next);
 
@@ -275,7 +275,7 @@ int SinglyListIsEmpty(const singly_list_t *list)
  * Static Functions Definitions
  *********************************/
 
-static sll_node_t *CreateNode(const void *data, sll_node_t *next_node)
+static sll_node_t *CreateNode(const void *data, const sll_node_t *next_node)
 {
     sll_node_t *new_node = malloc(sizeof(sll_node_t));
     if (!new_node)
@@ -285,7 +285,7 @@ static sll_node_t *CreateNode(const void *data, sll_node_t *next_node)
 
     memset(new_node, 0, sizeof(sll_node_t));
     new_node->data = (void *)data;
-    new_node->next = next_node;
+    new_node->next = (sll_node_t *)next_node;
 
     return new_node;
 }
