@@ -35,7 +35,7 @@ Returns next iterator.
 Removing ListEnd is undefined.
 */
 
-size_t DoublyListSize(const doubly_list_t *list);
+size_t DoublyListGetSize(const doubly_list_t *list);
 int DoublyListIsEmpty(const doubly_list_t *list);
 
 void *DoublyListGetData(dll_iter_t iter);

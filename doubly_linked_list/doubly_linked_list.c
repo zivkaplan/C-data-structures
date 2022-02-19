@@ -18,7 +18,7 @@
 
 struct doubly_list
 {
-    struct dll_node *first;
+    struct dll_node *dummy_first;
     struct dll_node *last;
 };
 
@@ -54,7 +54,7 @@ doubly_list_t *DoublyListCreate(void)
     dll_node_t *last_dummy = first_dummy + 1;
 
     /* Initialize members */
-    new_list->first = first_dummy;
+    new_list->dummy_first = first_dummy;
     new_list->last = last_dummy;
 
     first_dummy->data = NULL;
@@ -62,7 +62,7 @@ doubly_list_t *DoublyListCreate(void)
     first_dummy->next = last_dummy;
 
     last_dummy->data = NULL;
-    last_dummy->prev = NULL;
+    last_dummy->prev = first_dummy;
     last_dummy->next = NULL;
 
     return new_list;
@@ -133,7 +133,7 @@ dll_iter_t DoublyListBegin(const doubly_list_t *list)
 {
     assert(list);
 
-    return list->first;
+    return DoublyListNext(list->dummy_first);
 }
 
 dll_iter_t DoublyListEnd(const doubly_list_t *list)
@@ -186,7 +186,7 @@ int DoublyListIsSameIterator(const dll_iter_t iter1, const dll_iter_t iter2)
     return iter1 == iter2;
 }
 
-size_t DoublyListSize(const doubly_list_t *list)
+size_t DoublyListGetSize(const doubly_list_t *list)
 {
     assert(list);
 
