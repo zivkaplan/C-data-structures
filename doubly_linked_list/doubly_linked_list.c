@@ -16,6 +16,9 @@
 
 #include "doubly_linked_list.h" /* header of the current source file */
 
+/*********************************
+ * Data Types
+ ********************************/
 struct doubly_list
 {
     struct dll_node *dummy_first;
@@ -29,14 +32,23 @@ typedef struct dll_node
     void *data;
 } dll_node_t;
 
+/*********************************
+ * Global Variables
+ ********************************/
 static const size_t LIST_W_DUMMIES_SIZE = sizeof(doubly_list_t) +
                                           (sizeof(dll_node_t) * 2);
 
+/*********************************
+ * Static Functions Declarations
+ ********************************/
 static void SetPrev(dll_iter_t iter, const dll_iter_t prev);
 static void SetNext(dll_iter_t iter, const dll_iter_t next);
-
 static dll_node_t *CreateNode(const void *data, const dll_node_t *prev_node,
                               const dll_node_t *next_node);
+
+/*********************************
+ * API Functions Definitions
+ ********************************/
 
 doubly_list_t *DoublyListCreate(void)
 {
@@ -274,6 +286,10 @@ int DoublyListFindAll(const doubly_list_t *list, void *param,
 
     return EXIT_SUCCESS;
 }
+
+/*********************************
+ * Static Functions Definitions
+ ********************************/
 
 static dll_node_t *CreateNode(const void *data, const dll_node_t *prev_node, const dll_node_t *next_node)
 {

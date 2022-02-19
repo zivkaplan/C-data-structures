@@ -16,14 +16,21 @@
 #include <assert.h> /* assert() */
 
 #include "singly_linked_list.h" /* Create(), Destroy(), IsEmpty(), GetSize(),
-                                    TODO: ADD ALL */
+                                    GetData(), Insert(), Remove(),
+                                    Begin(), End(), IsSameIterator() */
 #include "queue.h"              /* header of the current source file */
 
+/*********************************
+ * Data Types
+ ********************************/
 struct queue
 {
     singly_list_t *list;
 };
 
+/*********************************
+ * API Functions Definitions
+ ********************************/
 queue_t *QueueCreate(void)
 {
     queue_t *new_queue = malloc(sizeof(queue_t));

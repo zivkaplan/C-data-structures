@@ -16,6 +16,9 @@
 
 #include "stack.h" /* head of this source file */
 
+/*********************************
+ * Data Types
+ ********************************/
 struct stack
 {
     size_t capacity;
@@ -24,7 +27,7 @@ struct stack
 };
 
 /*********************************
- * Static Functions declarations
+ * Static Functions Declarations
  ********************************/
 static size_t GetStackStructSize(size_t capacity);
 

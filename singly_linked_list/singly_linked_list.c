@@ -16,6 +16,9 @@
 
 #include "singly_linked_list.h" /* header of this source file */
 
+/*********************************
+ * Data Types
+ ********************************/
 typedef struct sll_node
 {
     struct sll_node *next;
@@ -28,6 +31,9 @@ struct singly_list
     struct sll_node *first;
 };
 
+/*********************************
+ * Global Variables
+ ********************************/
 static const size_t LIST_W_DUMMY_SIZE = sizeof(singly_list_t) + sizeof(sll_node_t);
 
 /*********************************
