@@ -22,14 +22,14 @@ doubly_list_t *DoublyListCreate(void);
 void DoublyListDestroy(doubly_list_t *list);
 /* Calling Destroy(NULL) is valid */
 
-dll_iter_t DoublyListInsert(doubly_list_t list, dll_iter_t iter, const void *data);
+dll_iter_t DoublyListInsert(doubly_list_t *list, dll_iter_t iter, const void *data);
 /*
 On success returns iterator to the new inserted data,
 on failure returns ListEnd().
 To insert the first element use only Insert(ListEnd).
 */
 
-dll_iter_t DoublyListRemove(doubly_list_t list, dll_iter_t iter);
+dll_iter_t DoublyListRemove(doubly_list_t *list, dll_iter_t iter);
 /*
 Returns next iterator.
 Removing ListEnd is undefined.
@@ -55,8 +55,7 @@ After any change in the list (inserting or removing data),
 any existing iterators are invalidated and using them is undefined behaviour.
 */
 
-dll_iter_t DoublyListFind(dll_iter_t from_iter, dll_iter_t to_iter,
-                          void *param,
+dll_iter_t DoublyListFind(const doubly_list_t *list, void *param,
                           int (*is_match)(const void *data, const void *param));
 
 /*
@@ -66,8 +65,14 @@ Returns the first matched iterator, or ListEnd if case no match found.
 int DoublyListFindAll(const doubly_list_t *list,
                       void *param,
                       int (*is_match)(const void *data, const void *param), doubly_list_t *output_list);
+/*
+On success returns 0;
+otherwise return 1.
+found data is appended to the end of output_list.
+In case of error mid-iteration, the data that was found until the error is appended.
+*/
 
-dll_iter_t DoublyListForEach(dll_iter_t from_iter, dll_iter_t to_iter,
+dll_iter_t DoublyListForEach(doubly_list_t *list,
                              void *param,
                              int (*operation_func)(void *data, void *param));
 /*
