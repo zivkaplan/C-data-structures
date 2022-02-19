@@ -2,7 +2,10 @@
 #include <stdio.h>  /* printf() */
 #include <assert.h> /* assert() */
 
-#include "singly_linked_list.h"
+#include "singly_linked_list.h" /* Create(), Destroy(), GetSize(), IsEmpty(), 
+                                   IsSameIterator(), Begin(), End(), Next(), 
+                                   Insert(), InsertAfter(), Remove(), RemoveAfter()  
+                                   ForEach(), Find(), GetData(), SetData() */
 
 #define RESETCOLOR "\033[0m"
 #define MAGENTA "\033[35m"
