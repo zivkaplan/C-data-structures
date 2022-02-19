@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -pedantic-errors -Wall -Wextra -g
 
 SOURCES = $(wildcard *.c)
-OBJECTS = $(SOURCES.c=.o)
+OBJECTS = $(SOURCES:.c=.o)
 EXECUTABLE = test
 
 .PHONY: all clean obj_clean
