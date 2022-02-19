@@ -62,8 +62,9 @@ static void PrintTest(size_t result, size_t expected, char *test_name, size_t li
 
 void RunTest(void)
 {
-    int a0 = 0, a = 1,
-        b = 2, c = 3, d = 4;
+    int n0 = 0, n1 = 1,
+        n2 = 2, n3 = 3,
+        n4 = 4, n5 = 5;
 
     doubly_list_t *list = DoublyListCreate();
     dll_iter_t iter = NULL;
@@ -77,7 +78,7 @@ void RunTest(void)
     PrintTest(DoublyListIsEmpty(list), 1, "IsEmpty", __LINE__);
 
     printf(BOLDWHITE "\nAdding Element (1)\n" RESETCOLOR);
-    iter = DoublyListInsert(list, DoublyListEnd(list), &a);
+    iter = DoublyListInsert(list, DoublyListEnd(list), &n1);
     PrintTest(DoublyListGetSize(list), 1, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
@@ -87,33 +88,41 @@ void RunTest(void)
     PrintTest(DoublyListIsEmpty(list), 1, "IsEmpty", __LINE__);
 
     printf(BOLDWHITE "\nAdding Element (1)\n" RESETCOLOR);
-    iter = DoublyListInsert(list, DoublyListEnd(list), &a);
+    iter = DoublyListInsert(list, DoublyListEnd(list), &n1);
     PrintTest(DoublyListGetSize(list), 1, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
     printf(BOLDWHITE "\nAdding Element (2) to End\n" RESETCOLOR);
-    iter = DoublyListInsert(list, DoublyListEnd(list), &b);
+    iter = DoublyListInsert(list, DoublyListEnd(list), &n2);
     PrintTest(DoublyListGetSize(list), 2, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
     DoublyListForEach(list, NULL, PrintNode);
 
     printf(BOLDWHITE "\nAdding Element (0) to Begin\n" RESETCOLOR);
-    iter = DoublyListInsert(list, DoublyListBegin(list), &a0);
+    iter = DoublyListInsert(list, DoublyListBegin(list), &n0);
     PrintTest(DoublyListGetSize(list), 3, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
     DoublyListForEach(list, NULL, PrintNode);
 
+    printf(BOLDWHITE "\nGet Last added Element's data\n" RESETCOLOR);
+    PrintTest(*(int *)DoublyListGetData(iter), n0, "GetData", __LINE__);
+    printf(BOLDWHITE "\nChange it's value to 5\n" RESETCOLOR);
+    DoublyListSetData(iter, &n5);
+    PrintTest(*(int *)DoublyListGetData(iter), n5, "SetData", __LINE__);
+
+    DoublyListForEach(list, NULL, PrintNode);
+
     printf(BOLDWHITE "\nAdding Element (4) to End\n" RESETCOLOR);
-    iter = DoublyListInsert(list, DoublyListEnd(list), &d);
+    iter = DoublyListInsert(list, DoublyListEnd(list), &n4);
     PrintTest(DoublyListGetSize(list), 4, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
     DoublyListForEach(list, NULL, PrintNode);
 
     printf(BOLDWHITE "\nAdding Element (3) to middle\n" RESETCOLOR);
-    iter = DoublyListInsert(list, iter, &c);
+    iter = DoublyListInsert(list, iter, &n3);
     PrintTest(DoublyListGetSize(list), 5, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
@@ -135,14 +144,14 @@ void RunTest(void)
 
     printf(BOLDWHITE "\nAdding Element (4) to middle\n" RESETCOLOR);
     iter = DoublyListPrev(iter);
-    iter = DoublyListInsert(list, iter, &d);
+    iter = DoublyListInsert(list, iter, &n4);
     PrintTest(DoublyListGetSize(list), 4, "Size", __LINE__);
     PrintTest(DoublyListIsEmpty(list), 0, "IsEmpty", __LINE__);
 
     DoublyListForEach(list, NULL, PrintNode);
 
     printf(BOLDWHITE "\nFind Last Inserted Element\n" RESETCOLOR);
-    found_iter = DoublyListFind(list, (void *)(long)d, FindByVal);
+    found_iter = DoublyListFind(list, (void *)(long)n4, FindByVal);
     PrintTest(DoublyListIsSameIterator(iter, found_iter), 1, "IsSameIterator", __LINE__);
 
     printf(BOLDWHITE "\nTest Find With Non-Existing Value\n" RESETCOLOR);
@@ -163,7 +172,7 @@ void TestFindAll(void)
     doubly_list_t *list_1 = DoublyListCreate();
     doubly_list_t *list_2 = DoublyListCreate();
 
-    printf(BOLDWHITE "\nDoubly Linked List Test FindAll\n" RESETCOLOR);
+    printf(BOLDWHITE "\n\nDoubly Linked List Test FindAll\n" RESETCOLOR);
 
     DoublyListInsert(list_1, DoublyListEnd(list_1), &a);
     DoublyListInsert(list_1, DoublyListEnd(list_1), &a);
