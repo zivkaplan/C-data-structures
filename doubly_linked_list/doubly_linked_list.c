@@ -22,15 +22,26 @@ struct doubly_list
     struct dll_node *last;
 };
 
-struct dll_node
+typedef struct dll_node
 {
     struct dll_node *next;
     struct dll_node *prev;
     void *data;
-};
+} dll_node_t;
+
+static const size_t LIST_W_DUMMY_SIZE = sizeof(doubly_list_t) + sizeof(dll_node_t);
 
 doubly_list_t *DoublyListCreate(void)
 {
+
+    void *memory_pool = malloc(LIST_W_DUMMY_SIZE);
+    if (!memory_pool)
+    {
+        return NULL;
+    }
+
+    doubly_list_t *new_list = (doubly_list_t *)memory_pool;
+    dll_node_t *dummy_node = new_list + 1;
 }
 
 /*

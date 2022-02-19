@@ -51,7 +51,7 @@ singly_list_t *SinglyListCreate(void)
     memset(mem_pool, 0, LIST_W_DUMMY_SIZE);
 
     singly_list_t *new_list = (singly_list_t *)mem_pool;
-    sll_node_t *dummy_node = (sll_node_t *)((char *)mem_pool + sizeof(singly_list_t));
+    sll_node_t *dummy_node = (sll_node_t *)(new_list + 1);
 
     /* Initialize members */
     new_list->first = dummy_node;
