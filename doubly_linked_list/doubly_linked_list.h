@@ -22,7 +22,7 @@ doubly_list_t *DoublyListCreate(void);
 void DoublyListDestroy(doubly_list_t *list);
 /* Calling Destroy(NULL) is valid */
 
-dll_iter_t DoublyListInsert(doubly_list_t list, dll_iter_t iter, void *data);
+dll_iter_t DoublyListInsert(doubly_list_t list, dll_iter_t iter, const void *data);
 /*
 On success returns iterator to the new inserted data,
 on failure returns ListEnd().
@@ -39,7 +39,7 @@ size_t DoublyListSize(const doubly_list_t *list);
 int DoublyListIsEmpty(const doubly_list_t *list);
 
 void *DoublyListGetData(dll_iter_t iter);
-void *DoublyListSetData(dll_iter_t iter);
+void DoublyListSetData(dll_iter_t iter, const void *data);
 /*
 Calling SetData/GetData on an empty list is undefined.
 Calling SetData/GetData on ListEnd list is undefined.
