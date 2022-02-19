@@ -1,8 +1,39 @@
-typedef struct doubly_list doubly_list_t;
-typedef struct node *dll_iter_t;
+/*********************************************************
+ * Doubly Linked List Data Structure
+ * -------------------------------------------------------
+ *      Implementation in C.
+ *      Elements are stored By reference.
+ *
+ * Ziv Kaplan
+ * February 2022
+ * -------------------------------------------------------
+ * Please refer to the header file for the complete API.
+ ********************************************************/
+
+#include <stdlib.h> /* malloc(), free() */
+#include <string.h> /* memset() */
+#include <assert.h> /* assert() */
+
+#include "doubly_linked_list.h" /* header of the current source file */
+
+struct doubly_list
+{
+    struct dll_node *first;
+    struct dll_node *last;
+};
+
+struct dll_node
+{
+    struct dll_node *next;
+    struct dll_node *prev;
+    void *data;
+};
+
+doubly_list_t *DoublyListCreate(void)
+{
+}
 
 /*
-doubly_list_t *DoublyListCreate(void);
 void DoublyListDestroy(doubly_list_t *list);
 dll_iter_t DoublyListInsert(doubly_list_t list, dll_iter_t iter, void *data);
 dll_iter_t DoublyListRemove(doubly_list_t list, dll_iter_t iter);

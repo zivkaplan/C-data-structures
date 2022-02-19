@@ -2,12 +2,12 @@
  * Stack Data Structure
  * -------------------------------------------------------
  *      Implementation in C
- *      elements are stored By reference.
+ *      Elements are stored By reference.
  *
  * Ziv Kaplan
  * February 2022
  * -------------------------------------------------------
- * Please read the header file for the complete API.
+ * Please refer to the header file for the complete API.
  ********************************************************/
 
 #include <stdlib.h> /* malloc(), free() */

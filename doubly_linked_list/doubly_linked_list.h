@@ -14,7 +14,7 @@
  **********************************/
 
 typedef struct doubly_list doubly_list_t;
-typedef struct node *dll_iter_t;
+typedef struct dll_node *dll_iter_t;
 
 doubly_list_t *DoublyListCreate(void);
 /* returns NULL on failure.*/
@@ -67,13 +67,13 @@ int DoublyListFindAll(const doubly_list_t *list,
                       void *param,
                       int (*is_match)(const void *data, const void *param), doubly_list_t *output_list);
 
-int DoublyListForEach(dll_iter_t from_iter, dll_iter_t to_iter,
-                      void *param,
-                      int (*operation_func)(void *data, void *param));
+dll_iter_t DoublyListForEach(dll_iter_t from_iter, dll_iter_t to_iter,
+                             void *param,
+                             int (*operation_func)(void *data, void *param));
 /*
 Iteration continues while operation_func returns 0.
 Returns ListEnd if iterated through the entire list,
-otherwise returns the iterator on which it was stopped.
+otherwise returns the iterator on which it was stopped
 */
 
 #endif /* __DOUBLY_LINKED_LIST_H__ */

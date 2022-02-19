@@ -1,13 +1,15 @@
-/***********************************
+/*********************************************************
  * Queue Data Structure
- * ------------------------
- *      Implementation in C
- *      elements are stored By reference.
- *      built upon linked list implementation.
+ * -------------------------------------------------------
+ *      Implementation in C.
+ *      Elements are stored By reference.
+ *      Built upon singly linked list implementation.
  *
  * Ziv Kaplan
  * February 2022
- **********************************/
+ * -------------------------------------------------------
+ * Please refer to the header file for the complete API.
+ ********************************************************/
 
 #include <stdlib.h> /* EXIT_SUCCESS, EXIT_FAILURE, malloc(), free() */
 #include <string.h> /* memset() */
