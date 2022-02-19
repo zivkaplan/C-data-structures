@@ -273,8 +273,6 @@ int DoublyListFindAll(const doubly_list_t *list, void *param,
     }
 
     return EXIT_SUCCESS;
-
-    return iter;
 }
 
 static dll_node_t *CreateNode(const void *data, const dll_node_t *prev_node, const dll_node_t *next_node)
