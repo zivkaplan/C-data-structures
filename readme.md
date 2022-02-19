@@ -12,14 +12,14 @@ Note that some DS will be built upon others.
 ### 🟢 Ready:
 - Stack
 - Singly Linked List
-
-
-### 🟡 In Progress:
 - Queue (using singly linked list)
 
 
-### 🟠 To Do (in the near future): 
+### 🟡 In Progress:
 - Doubly Linked List
+
+
+### 🟠 To Do (in the near future): 
 - Vector
 - Circular Queue (fixed sized queue using array)
 - Binary Search Tree

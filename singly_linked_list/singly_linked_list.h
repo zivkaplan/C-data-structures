@@ -22,7 +22,7 @@ returns NULL on failure.
 */
 
 void SinglyListDestroy(singly_list_t *list);
-/* Calling DestroyList(NULL) is valid */
+/* Calling Destroy(NULL) is valid */
 
 sll_iter_t SinglyListInsert(singly_list_t *list, sll_iter_t iter, const void *data);
 sll_iter_t SinglyListInsertAfter(singly_list_t *list, sll_iter_t iter, const void *data);
