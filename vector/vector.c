@@ -32,6 +32,7 @@ struct vector
  * Static Functions Declarations
  ********************************/
 static size_t GetElementSize(const vector_t *vector);
+static size_t GetActualIndex(const vector_t *vector, size_t index);
 
 /*********************************
  * API Functions Definitions
@@ -76,8 +77,9 @@ void VectorDestroy(vector_t *vector)
     }
 
     memset(vector->arr, 0, (VectorCapacity(vector) * GetElementSize(vector)));
-    memset(vector, 0, sizeof(vector_t));
+    free(vector->arr);
 
+    memset(vector, 0, sizeof(vector_t));
     free(vector);
     vector = NULL;
 }
@@ -100,8 +102,11 @@ int VectorPush(vector_t *vector, const void *val)
             return EXIT_FAILURE;
         }
     }
+    void *new_element_location = (void *)((char *)vector->arr +
+                                          GetActualIndex(vector, VectorSize(vector)));
+    memcpy(new_element_location, val, GetElementSize(vector));
+    vector->size++;
 
-    // TODO: finish
     return EXIT_SUCCESS;
 }
 
@@ -109,17 +114,17 @@ void *VectorAccessElement(vector_t *vector, size_t index)
 {
     assert(vector);
 
-    return (char *)vector + (index * vector->element_size);
+    return (char *)vector->arr + GetActualIndex(vector, index);
 }
 
-size_t VectorCapacity(const vector_t *vector)
+size_t VectorGetCapacity(const vector_t *vector)
 {
     assert(vector);
 
     return vector->capacity;
 }
 
-size_t VectorSize(const vector_t *vector)
+size_t VectorGetSize(const vector_t *vector)
 {
     assert(vector);
 
@@ -166,4 +171,11 @@ static size_t GetElementSize(const vector_t *vector)
     assert(vector);
 
     return vector->element_size;
+}
+
+static size_t GetActualIndex(const vector_t *vector, size_t index)
+{
+    assert(vector);
+
+    return (index * GetElementSize(vector));
 }

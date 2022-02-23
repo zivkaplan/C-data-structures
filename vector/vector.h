@@ -37,9 +37,9 @@ calling AccessElement() with index that is equal or bigger than the size is unde
 The returned pointer to the data is is valid until the next call to push()
 */
 
-size_t VectorCapacity(const vector_t *vector);
+size_t VectorGetCapacity(const vector_t *vector);
 
-size_t VectorSize(const vector_t *vector);
+size_t VectorGetSize(const vector_t *vector);
 
 int VectorIsEmpty(const vector_t *vector);
 
