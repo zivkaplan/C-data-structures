@@ -14,14 +14,14 @@ Note that some DS will be built upon others.
 - Singly Linked List
 - Queue (using singly linked list)
 - Doubly Linked List
-
-
-### 🟡 In Progress:
 - Vector
 
 
-### 🟠 To Do (in the near future): 
+### 🟡 In Progress:
 - Circular Queue (fixed sized queue using array)
+
+
+### 🟠 To Do (in the near future): 
 - Binary Search Tree
 - AVL
 - Add to each DS file with info (complexity, pros and cons) 

@@ -76,7 +76,7 @@ void VectorDestroy(vector_t *vector)
         return;
     }
 
-    memset(vector->arr, 0, (VectorCapacity(vector) * GetElementSize(vector)));
+    memset(vector->arr, 0, (VectorGetCapacity(vector) * GetElementSize(vector)));
     free(vector->arr);
 
     memset(vector, 0, sizeof(vector_t));
@@ -103,8 +103,8 @@ int VectorPush(vector_t *vector, const void *val)
         }
     }
     void *new_element_location = (void *)((char *)vector->arr +
-                                          GetActualIndex(vector, VectorSize(vector)));
-    memcpy(new_element_location, val, GetElementSize(vector));
+                                          GetActualIndex(vector, VectorGetSize(vector)));
+    memcpy(new_element_location, &val, GetElementSize(vector));
     vector->size++;
 
     return EXIT_SUCCESS;
@@ -160,7 +160,7 @@ int VectorShrinkToFit(vector_t *vector)
 {
     assert(vector);
 
-    return VectorResize(vector, VectorSize(vector));
+    return VectorResize(vector, VectorGetSize(vector));
 }
 
 /*********************************
