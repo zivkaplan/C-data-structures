@@ -41,7 +41,7 @@ vector_t *VectorCreate(size_t num_of_elements,
 {
     assert(num_of_elements != 0);
     assert(element_size != 0);
-    assert(growth_factor > 2);
+    assert(growth_factor > 1);
 
     vector_t *new_vector = malloc(sizeof(vector_t));
     void *arr = malloc(num_of_elements * element_size);
@@ -100,6 +100,9 @@ int VectorPush(vector_t *vector, const void *val)
             return EXIT_FAILURE;
         }
     }
+
+    // TODO: finish
+    return EXIT_SUCCESS;
 }
 
 void *VectorAccessElement(vector_t *vector, size_t index)
@@ -135,13 +138,11 @@ int VectorResize(vector_t *vector, size_t desired_num_of_elements)
     assert(vector);
 
     vector_t *new_address = realloc(vector->arr,
-                                     desired_num_of_elements * GetElementSize(vector)));
+                                    desired_num_of_elements * GetElementSize(vector));
     if (!new_address)
     {
         return EXIT_FAILURE;
     }
-
-    memset(new_address, 0, desired_num_of_elements * GetElementSize(vector));
 
     /* update members */
     vector->arr = new_address;
