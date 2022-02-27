@@ -41,8 +41,6 @@ void RunTest(void)
     char stack_buff[6] = {0};
     circ_buff_t *circ_buff = CircBuffCreate(6);
 
-    system("clear");
-
     printf(BOLDWHITE "\n\t\tTest Circular Buffer\n\n" RESETCOLOR);
 
     printf(BOLDWHITE "\nNew Empty Buffer\n" RESETCOLOR);

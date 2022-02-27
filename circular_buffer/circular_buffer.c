@@ -16,6 +16,9 @@
 
 #include "circular_buffer.h" /* header of the current source file */
 
+/*********************************
+ * Data Types
+ ********************************/
 typedef enum buff_state
 {
     READ,
@@ -38,10 +41,16 @@ struct circular_buffer
     char arr[1];
 };
 
+/*********************************
+ * Static Functions Declarations
+ ********************************/
 static size_t Min(size_t a, size_t b);
 static size_t MinOf3(size_t a, size_t b, size_t c);
 static size_t SpacesToArrLastIndex(const circ_buff_t *circ_buff, buff_state_t state);
 
+/*********************************
+ * API Functions Definitions
+ ********************************/
 circ_buff_t *CircBuffCreate(size_t capacity_in_bytes)
 {
     assert(capacity_in_bytes);
@@ -147,6 +156,7 @@ size_t CircBuffWrite(circ_buff_t *circ_buff, const void *src, size_t n_bytes)
     circ_buff->write_idx += (first_operation_count % circ_buff->actual_capacity);
     total_written += first_operation_count;
     src = (char *)src + first_operation_count;
+
     size_t left_to_write = Min(CircBuffFreeSpaceLeft(circ_buff),
                                n_bytes - first_operation_count);
 
@@ -157,6 +167,10 @@ size_t CircBuffWrite(circ_buff_t *circ_buff, const void *src, size_t n_bytes)
 
     return total_written;
 }
+
+/*********************************
+ * Static Functions Definitions
+ ********************************/
 
 static size_t MinOf3(size_t a, size_t b, size_t c)
 {

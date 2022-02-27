@@ -15,13 +15,13 @@ Note that some DS will be built upon others.
 - Queue (using singly linked list)
 - Doubly Linked List
 - Vector
-
-
-### 🟡 In Progress:
 - Circular Queue (fixed sized queue using array)
 
 
-### 🟠 To Do (in the near future): 
+### 🟡 In Progress:
 - Binary Search Tree
+
+
+### 🟠 To Do (in the near future): 
 - AVL
 - Add to each DS file with info (complexity, pros and cons) 
