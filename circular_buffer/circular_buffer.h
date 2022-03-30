@@ -1,5 +1,5 @@
-#ifndef __CIRCULAR_BUFFER_H__
-#define __CIRCULAR_BUFFER_H__
+#ifndef __ZK_CIRCULAR_BUFFER_H__
+#define __ZK_CIRCULAR_BUFFER_H__
 
 /***********************************
  * Circular Buffer Data Structure
@@ -34,4 +34,4 @@ size_t CircBuffCapacity(const circ_buff_t *circ_buff);
 size_t CircBuffFreeSpaceLeft(const circ_buff_t *circ_buff);
 int CircBuffIsEmpty(const circ_buff_t *circ_buff);
 
-#endif /* __CIRCULAR_BUFFER_H__ */
+#endif /* __ZK_CIRCULAR_BUFFER_H__ */

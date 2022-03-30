@@ -1,5 +1,5 @@
-#ifndef __DOUBLY_LINKED_LIST_H__
-#define __DOUBLY_LINKED_LIST_H__
+#ifndef __ZK_DOUBLY_LINKED_LIST_H__
+#define __ZK_DOUBLY_LINKED_LIST_H__
 
 #include <stddef.h> /* size_t */
 
@@ -49,7 +49,6 @@ Calling SetData on an empty list is undefined.
 Calling SetData on ListEnd list is undefined.
 */
 void DoublyListSetData(dll_iter_t iter, const void *data);
-
 
 /*
 After any change in the list (inserting or removing data),
@@ -102,4 +101,4 @@ dll_iter_t DoublyListForEach(doubly_list_t *list,
                              void *param,
                              int (*operation_func)(void *data, void *param));
 
-#endif /* __DOUBLY_LINKED_LIST_H__ */
+#endif /* __ZK_DOUBLY_LINKED_LIST_H__ */

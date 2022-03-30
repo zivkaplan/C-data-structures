@@ -1,5 +1,5 @@
-#ifndef __QUEUE_H__
-#define __QUEUE_H__
+#ifndef __ZK_QUEUE_H__
+#define __ZK_QUEUE_H__
 
 /***********************************
  * Queue Data Structure
@@ -16,22 +16,22 @@
 
 typedef struct queue queue_t;
 
-queue_t *QueueCreate(void);
 /* returns NULL on failure */
+queue_t *QueueCreate(void);
 
-void QueueDestroy(queue_t *queue);
 /* Calling Destroy(NULL) is valid */
+void QueueDestroy(queue_t *queue);
 
-int QueueEnqueue(queue_t *queue, void *data);
 /* return 0 for success, 1 for failure*/
+int QueueEnqueue(queue_t *queue, void *data);
 
-void QueueDequeue(queue_t *queue);
 /* Calling Dequeue() on empty queue is undefined */
+void QueueDequeue(queue_t *queue);
 
-void *QueuePeek(const queue_t *queue);
 /* Calling Peek() on empty queue is undefined */
+void *QueuePeek(const queue_t *queue);
 
 size_t QueueGetSize(const queue_t *queue);
 int QueueIsEmpty(const queue_t *queue);
 
-#endif /* __QUEUE_H__ */
+#endif /* __ZK_QUEUE_H__ */
